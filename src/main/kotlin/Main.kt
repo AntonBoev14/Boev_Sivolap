@@ -52,9 +52,16 @@ fun main()
             }
 
             "5"->{
-
+                println("Введите целое число n: ")
+                val n = readln().toIntOrNull()
+                println("Введите основание степени x: ")
+                val x = readln().toIntOrNull()
+                if (n != null && x != null && x > 1 && n > 0) {
+                    checkPower(n, x)
+                } else {
+                    println("Ошибка: введите корректные значения (n > 0, x > 1)")
+                }
             }
-
             "6"->{
 
             }
@@ -152,5 +159,29 @@ fun calculate(input: String){
         println("Ошибка: неверная операция или деление на ноль")
     }
 }
+fun checkPower(n: Int, x: Int) {
+    if (x == 1) {
+        println("Основание степени не может быть равно 1")
+        return
+    }
+
+    var temp = n
+    var y = 0
+
+    while (temp % x == 0) {
+        temp /= x
+        y++
+    }
+
+    if (temp == 1 && y > 0) {
+        println("$x^$y = $n")
+    } else {
+        println("Целочисленный показатель не существует")
+    }
+}
+fun createNumber(digit1: Int, digit2: Int){
+}
+
+
 
 
