@@ -11,33 +11,32 @@ fun main()
         println("0. Выход из приложения.")
         println ("Введите пункт меню:")
 
-        val punkt = readln()
+        val point = readln()
 
-        when (punkt){
+        when (point){
             "0" -> {
                 println("Выход из приложения")
                 return
             }
             "1" -> {
                 println("Введите строку: ")
-                val inputString = readLine() ?: ""
-                val result = CharToNumber(inputString)
+                val inputString = readln()
+                val result = charToNumber(inputString)
                 println(result)
             }
             "2" ->{
                 println("Введите строку: ")
-                val inputString = readLine() ?: ""
-                val result = countSimvols(inputString)
-                println(result)
+                val inputString = readln()
+                countSymbol(inputString)
             }
             "3"->{
-                println("Введите натуральное число: ")
+                println("Введите натруальное число: ")
                 val number = readln().toIntOrNull()
                 val result: Int = 0
                 if (number != null){
-                    val binary = systemScislen(number)
+                    val binary = systemCounting(number)
                     if (binary.isNotEmpty()){
-                        println("Двоичное представление: $binary")
+                        println("Двоичное предстваление: $binary")
                     }
                     else{
                         println("Ошибка: введите корректное натуральное число")
@@ -62,7 +61,7 @@ fun main()
                     println("Ошибка: введите корректные значения (n > 0, x > 1)")
                 }
             }
-            "6"->{
+            "6"-> {
                 println("Введите первую цифру: ")
                 val digit1 = readln().toIntOrNull()
                 println("Введите вторую цифру: ")
@@ -79,8 +78,7 @@ fun main()
         }
     }
 }
-
-fun CharToNumber(input: String): String {
+fun charToNumber(input: String): String {
     if (input.isEmpty()) {
         return ""
     }
@@ -106,8 +104,8 @@ fun CharToNumber(input: String): String {
     }
     return result.toString()
 }
+fun countSymbol(input: String){
 
-fun countSimvols(input: String){
     if (input.isEmpty()){
         println("Строка пустая")
         return
@@ -125,8 +123,7 @@ fun countSimvols(input: String){
         }
     }
 }
-
-fun systemScislen(number: Int): String{
+fun systemCounting(number: Int): String{
     if (number == 0) return "0"
 
     var n = number
@@ -140,16 +137,23 @@ fun systemScislen(number: Int): String{
     return binary.toString()
 }
 
-fun calculate(input: String){
+fun calculate(input: String) {
     val parts = input.split(" ")
     if (parts.size != 3) {
         println("Ошибка: неверный формат ввода. Используйте: ЧИСЛО1 ЧИСЛО2 ОПЕРАЦИЯ")
         return
     }
 
-    val num1 = parts[0].toDoubleOrNull()
-    val num2 = parts[1].toDoubleOrNull()
+    val num1Str = parts[0]
+    val num2Str = parts[1]
     val operation = parts[2]
+
+    val isNum1Int = num1Str.toIntOrNull() != null
+    val isNum2Int = num2Str.toIntOrNull() != null
+    val allIntegers = isNum1Int && isNum2Int
+
+    val num1 = if (isNum1Int) num1Str.toInt().toDouble() else num1Str.toDoubleOrNull()
+    val num2 = if (isNum2Int) num2Str.toInt().toDouble() else num2Str.toDoubleOrNull()
 
     if (num1 == null || num2 == null) {
         println("Ошибка: введите корректные числа")
@@ -165,41 +169,40 @@ fun calculate(input: String){
     }
 
     if (result != null) {
-        println("$result")
+        if (allIntegers && result % 1.0 == 0.0) {
+            println(result.toInt())
+        } else {
+println(result)
+        }
     } else {
         println("Ошибка: неверная операция или деление на ноль")
     }
 }
-
 fun checkPower(n: Int, x: Int) {
     if (x == 1) {
         println("Основание степени не может быть равно 1")
         return
     }
 
-    var temp = n
+    var time = n
     var y = 0
 
-    while (temp % x == 0) {
-        temp /= x
+    while (time % x == 0) {
+        time /= x
         y++
     }
 
-    if (temp == 1 && y > 0) {
+    if ((time == 1 )&& y > 0) {
         println("$x^$y = $n")
     } else {
         println("Целочисленный показатель не существует")
     }
 }
-
-fun createNumber(digit1: Int, digit2: Int) {
-    // Пробуем оба варианта комбинаций цифр
+fun createNumber(digit1: Int, digit2: Int){
     val number1 = digit1 * 10 + digit2
     val number2 = digit2 * 10 + digit1
 
-    // Проверяем, является ли какое-либо из чисел нечетным
     if (number1 % 2 != 0 && number2 % 2 != 0) {
-        // Если оба нечетные, выбираем меньшее
         val result = minOf(number1, number2)
         println("Создано нечетное число: $result")
     } else if (number1 % 2 != 0) {
